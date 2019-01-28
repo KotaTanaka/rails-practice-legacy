@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: Find Wifi API
+  version: "0.01"
+  description: |-
+    WiFiスポット検索サービスのAPI
+servers:
+  - url: http://localhost:3000
+    description: ローカル
+tags:
+  - name: Shop
+    description: 店舗関連API
+  - name: Review
+    description: クチコミ関連API
+
+paths:
+  # GET /v1/shops 店舗一覧取得API
+  /v1/shops:
+    get:
+      tags:
+        - Shop
+      summary: 店舗一覧取得
+      operationId: getShopList
+      description: WiFi利用可能店舗一覧を取得する。
+      parameters:
+        - name: position
+          in: query
+          description: 位置情報
+          required: true
+          schema:
+            type: number
+            format: 数字
+            example: xxx
+        - name: wifi_id
+          in: query
+          description: Wi-Fi ID
+          schema:
+            type: string
+            format: 半角英数字
+            example: xxx
+        - name: power
+          in: query
+          description: 電源があるかどうか
+          schema:
+            type: boolean
+            format: 真理値
+            example: true
+        - name: limit
+          in: query
+          description: リミット
+          schema:
+            type: number
+            format: 数字
+            example: 20
+        - name: offset
+          in: query
+          description: オフセット
+          schema:
+            type: number
+            format: 数字
+            example: 10
+        - name: sort
+          in: query
+          description: ソート方法
+          schema:
+            type: string
+            format: asc / desc
+            example: desc
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - shop_list
+                  - total
+                properties:
+                  shop_list:
+                    type: array
+                    description: 店舗リスト
+                    items:
+                      type: object
+                      required:
+                        - shop_id
+                        - wifi_id
+                        - name
+                        - address
+                        - power
+                      properties:
+                        shop_id:
+                          description: 店舗ID
+                          type: string
+                          format: 半角英数字
+                          example: xxx
+                        wifi_id:
+                          description: Wi-Fi ID
+                          type: string
+                          format: 半角英数字
+                          example: xxx
+                        name:
+                          description: 店舗名
+                          type: string
+                          format: 文字列
+                          example: スターバックス渋谷店
+                        address:
+                          description: 店舗住所
+                          type: string
+                          format: 文字列
+                          example: 東京都渋谷区道玄坂xxx
+                        power:
+                          description: 電源があるかどうか
+                          type: boolean
+                          format: 真理値
+                          example: true
+                  total:
+                    description: 店舗総数
+                    type: number
+                    format: 数字
+                    example: 50
+        "400":
+          description: パラメータ不正
+        "500":
+          description: システムエラー
+  
+  # GET /v1/shops/:shop_id 店舗詳細取得API
+  /v1/shops/{shop_id}:
+    get:
+      tags:
+        - Shop
+      summary: 店舗詳細取得
+      operationId: getShopDetail
+      description: WiFi利用可能店舗の詳細情報を取得する。
+      parameters:
+        - name: shop_id
+          in: path
+          description: 位置情報
+          required: true
+          schema:
+            type: number
+            format: 数字
+            example: xxx
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - shop_id
+                  - wifi_id
+                  - name
+                  - address
+                  - power
+                properties:
+                  shop_id:
+                    description: 店舗ID
+                    type: string
+                    format: 半角英数字
+                    example: xxx
+                  wifi_id:
+                    description: Wi-Fi ID
+                    type: string
+                    format: 半角英数字
+                    example: xxx
+                  name:
+                    description: 店舗名
+                    type: string
+                    format: 文字列
+                    example: スターバックス渋谷店
+                  address:
+                    description: 店舗住所
+                    type: string
+                    format: 文字列
+                    example: 東京都渋谷区道玄坂xxx
+                  power:
+                    description: 電源があるかどうか
+                    type: boolean
+                    format: 真理値
+                    example: true
+                  link:
+                    description: 公式サイトへのリンク
+                    type: string
+                    format: URL
+                    example: http://xxxxx.com
+                  shop_images:
+                    description: 店舗画像
+                    type: string
+                    format: URL
+                    example:
+                      - xxx.png
+                      - yyy.png
+        "400":
+          description: パラメータ不正
+        "500":
+          description: システムエラー
