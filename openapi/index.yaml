@@ -3,7 +3,8 @@ info:
   title: Find Wifi API
   version: "0.01"
   description: |-
-    WiFiスポット検索サービスのAPI
+    # Introduction
+    Wi-Fiスポット検索サービスのAPI
 servers:
   - url: http://localhost:3000
     description: ローカル
@@ -11,17 +12,23 @@ tags:
   - name: Shop
     description: 店舗関連API
   - name: Review
-    description: クチコミ関連API
+    description: レビュー関連API
+x-tagGroups:
+  - name: API
+    tags:
+      - Shop
+      - Review
 
 paths:
-  # GET /v1/shops 店舗一覧取得API
   /v1/shops:
+    # GET /v1/shops 店舗一覧取得API
     get:
       tags:
         - Shop
       summary: 店舗一覧取得
       operationId: getShopList
-      description: WiFi利用可能店舗一覧を取得する。
+      description: |-
+        Wi-Fi利用可能店舗一覧を取得する。
       parameters:
         - name: position
           in: query
@@ -37,7 +44,7 @@ paths:
           schema:
             type: string
             format: 半角英数字
-            example: xxx
+            example: da5a3880-ed33-4107-ba25-7a22c318fd22
         - name: power
           in: query
           description: 電源があるかどうか
@@ -47,14 +54,14 @@ paths:
             example: true
         - name: limit
           in: query
-          description: リミット
+          description: リミット(取得件数)
           schema:
             type: number
             format: 数字
             example: 20
         - name: offset
           in: query
-          description: オフセット
+          description: オフセット(ページの開始位置)
           schema:
             type: number
             format: 数字
@@ -66,6 +73,10 @@ paths:
             type: string
             format: asc / desc
             example: desc
+      x-code-samples:
+        - lang: cURL
+          source: |
+            curl 'http://localhost:3000/v1/shops?position=xxx&power=true&limit=20'
       responses:
         "200":
           description: 成功時のレスポンス
@@ -93,12 +104,12 @@ paths:
                           description: 店舗ID
                           type: string
                           format: 半角英数字
-                          example: xxx
+                          example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
                         wifi_id:
                           description: Wi-Fi ID
                           type: string
                           format: 半角英数字
-                          example: xxx
+                          example: da5a3880-ed33-4107-ba25-7a22c318fd22
                         name:
                           description: 店舗名
                           type: string
@@ -108,7 +119,7 @@ paths:
                           description: 店舗住所
                           type: string
                           format: 文字列
-                          example: 東京都渋谷区道玄坂xxx
+                          example: 東京都渋谷区道玄坂1-1-1
                         power:
                           description: 電源があるかどうか
                           type: boolean
@@ -123,24 +134,29 @@ paths:
           description: パラメータ不正
         "500":
           description: システムエラー
-  
-  # GET /v1/shops/:shop_id 店舗詳細取得API
+
   /v1/shops/{shop_id}:
+    # GET /v1/shops/:shop_id 店舗詳細取得API
     get:
       tags:
         - Shop
       summary: 店舗詳細取得
       operationId: getShopDetail
-      description: WiFi利用可能店舗の詳細情報を取得する。
+      description: |-
+        Wi-Fi利用可能店舗の詳細情報を取得する。
       parameters:
         - name: shop_id
           in: path
-          description: 位置情報
+          description: 店舗ID
           required: true
           schema:
-            type: number
-            format: 数字
-            example: xxx
+            type: string
+            format: 半角英数字
+            example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+      x-code-samples:
+        - lang: cURL
+          source: |
+            curl 'http://localhost:3000/v1/shops/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2'
       responses:
         "200":
           description: 成功時のレスポンス
@@ -159,12 +175,12 @@ paths:
                     description: 店舗ID
                     type: string
                     format: 半角英数字
-                    example: xxx
+                    example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
                   wifi_id:
                     description: Wi-Fi ID
                     type: string
                     format: 半角英数字
-                    example: xxx
+                    example: da5a3880-ed33-4107-ba25-7a22c318fd22
                   name:
                     description: 店舗名
                     type: string
@@ -174,7 +190,7 @@ paths:
                     description: 店舗住所
                     type: string
                     format: 文字列
-                    example: 東京都渋谷区道玄坂xxx
+                    example: 東京都渋谷区道玄坂1-1-1
                   power:
                     description: 電源があるかどうか
                     type: boolean
@@ -192,6 +208,157 @@ paths:
                     example:
                       - xxx.png
                       - yyy.png
+        "400":
+          description: パラメータ不正
+        "500":
+          description: システムエラー
+
+  /v1/reviews:
+    # GET /v1/reviews レビュー一覧取得API
+    get:
+      tags:
+        - Review
+      summary: レビュー一覧取得
+      operationId: getReviewList
+      description: |-
+        Wi-Fi利用可能店舗に投稿されたレビューの一覧を取得する。
+      parameters:
+        - name: shop_id
+          in: query
+          description: 店舗ID
+          required: true
+          schema:
+            type: number
+            format: 数字
+            example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+        - name: limit
+          in: query
+          description: リミット(取得件数)
+          schema:
+            type: number
+            format: 数字
+            example: 20
+        - name: offset
+          in: query
+          description: オフセット(ページの開始位置)
+          schema:
+            type: number
+            format: 数字
+            example: 10
+        - name: sort
+          in: query
+          description: ソート方法
+          schema:
+            type: string
+            format: asc / desc
+            example: desc
+      x-code-samples:
+        - lang: cURL
+          source: |
+            curl 'http://localhost:3000/v1/reviews?shop_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2&limit=20'
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - review_list
+                  - total
+                properties:
+                  review_list:
+                    type: array
+                    description: レビューリスト
+                    items:
+                      type: object
+                      required:
+                        - review_id
+                        - comment
+                        - evaluation
+                      properties:
+                        review_id:
+                          description: レビューID
+                          type: string
+                          format: 半角英数字
+                          example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+                        comment:
+                          description: レビュー本文
+                          type: string
+                          format: 文字列
+                          example: 使いやすい
+                        evaluation:
+                          description: 評価
+                          type: number
+                          format: 数値
+                          enum: [1,2,3,4,5]
+                          example: 5
+                  total:
+                    description: レビュー総数
+                    type: number
+                    format: 数字
+                    example: 50
+        "400":
+          description: パラメータ不正
+        "500":
+          description: システムエラー
+  
+    # POST /v1/reviews レビュー投稿API
+    post:
+      tags:
+        - Review
+      summary: レビュー投稿
+      operationId: postReview
+      description: |-
+        Wi-Fi利用可能店舗にレビューを投稿する。
+      requestBody:
+        content:
+          "application/x-www-form-urlencoded":
+            schema:
+              type: object
+              required:
+                - shop_id
+                - comment
+                - evaluation
+              properties:
+                shop_id:
+                  description: 店舗ID
+                  type: string
+                  format: 半角英数字
+                  example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+                comment:
+                  description: レビュー本文
+                  type: string
+                  format: 文字列
+                  example: 使いやすい
+                evaluation:
+                  description: 評価
+                  type: number
+                  format: 数値
+                  enum: [1,2,3,4,5]
+                  example: 3
+      x-code-samples:
+        - lang: cURL
+          source: |
+            curl -X POST 'http://localhost:3000/v1/reviews' \
+              -d 'shop_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -d 'comment=使いやすい' \
+              -d 'evaluation=5'
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - review_id
+                properties:
+                  review_id:
+                    description: レビューID
+                    type: string
+                    format: 半角英数字
+                    example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
         "400":
           description: パラメータ不正
         "500":
