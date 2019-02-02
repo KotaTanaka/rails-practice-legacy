@@ -1,0 +1,9 @@
+<div class="main reviews-index">
+  <div class="container">
+    <% @reviews.each do |review| %>
+      <div class="reviews-index-item">
+        <%= review.content %>
+      </div>
+    <% end %>
+  </div>
+</div>

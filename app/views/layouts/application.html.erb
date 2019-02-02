@@ -10,6 +10,19 @@
   </head>
 
   <body>
+    <header>
+      <div class="header-logo">
+        <%= link_to("Find WiFi", "/") %>
+      </div>
+      <ul class="header-menus">
+        <li>
+          <%= link_to("Find WiFiとは", "/about") %>
+        </li>
+        <li>
+          <%= link_to("レビュー一覧", "/reviews") %>
+        </li>
+      </ul>
+    </header>
     <%= yield %>
   </body>
 </html>
