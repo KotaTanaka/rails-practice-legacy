@@ -5,6 +5,34 @@ info:
   description: |-
     # Introduction
     Wi-Fiスポット検索サービスのAPI
+
+    <h2>API一覧</h2>
+    <table>
+      <thead>
+        <th>No.</th><th>Group</th><th>Method</th><th>Path</th><th>API名称</th><th>説明</th>
+      </thead>
+      <tbody>
+        <tr><td>S-1</td><td>Shop</td><td>GET</td><td>/v1/shops</td>
+        <td>店舗一覧取得</td><td><b>サイト用</b> Wi-Fi利用可能店舗一覧を取得する。</td></tr>
+        <tr><td>S-2</td><td>Shop</td><td>POST</td><td>/v1/shops</td>
+        <td>店舗登録</td><td><b>管理用</b> Wi-Fi利用可能店舗を登録する。</td></tr>
+        <tr><td>S-3</td><td>Shop</td><td>GET</td><td>/v1/shops/:shop_id</td>
+        <td>店舗詳細取得</td><td><b>サイト用</b> Wi-Fi利用可能店舗の詳細情報を取得する。</td></tr>
+        <tr><td>S-4</td><td>Shop</td><td>PUT</td><td>/v1/shops/:shop_id</td>
+        <td>店舗情報編集</td><td><b>管理用</b> Wi-Fi利用可能店舗の情報を編集する。</td></tr>
+        <tr><td>S-5</td><td>Shop</td><td>DELETE</td><td>/v1/shops/:shop_id</td>
+        <td>店舗削除</td><td><b>管理用</b> Wi-Fi利用可能店舗を削除する。</td></tr>
+        <tr><td>R-1</td><td>Review</td><td>GET</td><td>/v1/reviews</td>
+        <td>レビュー一覧取得</td><td><b>サイト用</b> 店舗に投稿されたレビュー一覧を取得する。</td></tr>
+        <tr><td>R-2</td><td>Review</td><td>POST</td><td>/v1/reviews</td>
+        <td>レビュー投稿</td><td><b>サイト用</b> 店舗にレビューを投稿する。</td></tr>
+        <tr><td>R-3</td><td>Review</td><td>PUT</td><td>/v1/reviews/:review_id</td>
+        <td>レビュー公開・非公開</td><td><b>管理用</b> レビューの公開・非公開を変更する。</td></tr>
+        <tr><td>W-1</td><td>Wi-Fi Service</td><td>GET</td><td>/v1/services</td>
+        <td>Wi-Fiサービス一覧取得</td><td><b>管理用</b> Wi-Fiサービス一覧を取得する。</td></tr>
+        <tr><td>W-2</td><td>Wi-Fi Service</td><td>POST</td><td>/v1/services</td>
+        <td>Wi-Fiサービス登録</td><td><b>管理用</b> Wi-Fiサービスを登録する。</td></tr>
+    </table>
 servers:
   - url: http://localhost:3000
     description: ローカル
@@ -29,6 +57,11 @@ paths:
       operationId: getShopList
       description: |-
         Wi-Fi利用可能店舗一覧を取得する。
+      x-code-samples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3000/v1/shops?position=xxx&power=true&limit=10&offset=10'
       parameters:
         - name: position
           in: query
@@ -44,7 +77,7 @@ paths:
           schema:
             type: string
             format: 半角英数字
-            example: da5a3880-ed33-4107-ba25-7a22c318fd22
+            example: starbucks_wifi
         - name: power
           in: query
           description: 電源があるかどうか
@@ -73,10 +106,6 @@ paths:
             type: string
             format: asc / desc
             example: desc
-      x-code-samples:
-        - lang: cURL
-          source: |
-            curl 'http://localhost:3000/v1/shops?position=xxx&power=true&limit=20'
       responses:
         "200":
           description: 成功時のレスポンス
@@ -96,6 +125,7 @@ paths:
                       required:
                         - shop_id
                         - wifi_id
+                        - ssid
                         - name
                         - address
                         - power
@@ -103,13 +133,21 @@ paths:
                         shop_id:
                           description: 店舗ID
                           type: string
-                          format: 半角英数字
+                          format: UUID
                           example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
                         wifi_id:
                           description: Wi-Fi ID
                           type: string
                           format: 半角英数字
-                          example: da5a3880-ed33-4107-ba25-7a22c318fd22
+                          example: starbucks_wifi
+                        ssid:
+                          description: SSID
+                          type: array
+                          items:
+                            type: string
+                            format: 半角英数字
+                          example:
+                            - at_STARBUCKS_Wi2
                         name:
                           description: 店舗名
                           type: string
@@ -125,6 +163,11 @@ paths:
                           type: boolean
                           format: 真理値
                           example: true
+                        average:
+                          description: 評価の平均値
+                          type: number
+                          format: 数値
+                          example: 3.50
                   total:
                     description: 店舗総数
                     type: number
@@ -144,6 +187,11 @@ paths:
       operationId: getShopDetail
       description: |-
         Wi-Fi利用可能店舗の詳細情報を取得する。
+      x-code-samples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3000/v1/shops/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2'
       parameters:
         - name: shop_id
           in: path
@@ -151,12 +199,8 @@ paths:
           required: true
           schema:
             type: string
-            format: 半角英数字
+            format: UUID
             example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
-      x-code-samples:
-        - lang: cURL
-          source: |
-            curl 'http://localhost:3000/v1/shops/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2'
       responses:
         "200":
           description: 成功時のレスポンス
@@ -167,6 +211,7 @@ paths:
                 required:
                   - shop_id
                   - wifi_id
+                  - ssid
                   - name
                   - address
                   - power
@@ -174,13 +219,21 @@ paths:
                   shop_id:
                     description: 店舗ID
                     type: string
-                    format: 半角英数字
+                    format: UUID
                     example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
                   wifi_id:
                     description: Wi-Fi ID
                     type: string
                     format: 半角英数字
-                    example: da5a3880-ed33-4107-ba25-7a22c318fd22
+                    example: starbucks_wifi
+                  ssid:
+                    description: SSID
+                    type: array
+                    items:
+                      type: string
+                      format: 半角英数字
+                    example:
+                      - at_STARBUCKS_Wi2
                   name:
                     description: 店舗名
                     type: string
@@ -196,15 +249,22 @@ paths:
                     type: boolean
                     format: 真理値
                     example: true
+                  average:
+                    description: 評価の平均値
+                    type: number
+                    format: 数値
+                    example: 3.50
                   link:
                     description: 公式サイトへのリンク
                     type: string
                     format: URL
                     example: http://xxxxx.com
                   shop_images:
-                    description: 店舗画像
-                    type: string
-                    format: URL
+                    description: 店舗画像のURL
+                    type: array
+                    items:
+                      type: string
+                      format: URL
                     example:
                       - xxx.png
                       - yyy.png
@@ -222,10 +282,15 @@ paths:
       operationId: getReviewList
       description: |-
         Wi-Fi利用可能店舗に投稿されたレビューの一覧を取得する。
+      x-code-samples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3000/v1/reviews?shop_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2&limit=10&offset=10'
       parameters:
         - name: shop_id
           in: query
-          description: 店舗ID
+          description: UUID
           required: true
           schema:
             type: number
@@ -252,10 +317,6 @@ paths:
             type: string
             format: asc / desc
             example: desc
-      x-code-samples:
-        - lang: cURL
-          source: |
-            curl 'http://localhost:3000/v1/reviews?shop_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2&limit=20'
       responses:
         "200":
           description: 成功時のレスポンス
@@ -311,6 +372,15 @@ paths:
       operationId: postReview
       description: |-
         Wi-Fi利用可能店舗にレビューを投稿する。
+      x-code-samples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3000/v1/reviews' \
+              -H 'Contents-Type: application/x-www-form-urlencoded' \
+              -d 'shop_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -d 'comment=使いやすい' \
+              -d 'evaluation=5'
       requestBody:
         content:
           "application/x-www-form-urlencoded":
@@ -324,7 +394,7 @@ paths:
                 shop_id:
                   description: 店舗ID
                   type: string
-                  format: 半角英数字
+                  format: UUID
                   example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
                 comment:
                   description: レビュー本文
@@ -337,13 +407,6 @@ paths:
                   format: 数値
                   enum: [1,2,3,4,5]
                   example: 3
-      x-code-samples:
-        - lang: cURL
-          source: |
-            curl -X POST 'http://localhost:3000/v1/reviews' \
-              -d 'shop_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
-              -d 'comment=使いやすい' \
-              -d 'evaluation=5'
       responses:
         "200":
           description: 成功時のレスポンス
