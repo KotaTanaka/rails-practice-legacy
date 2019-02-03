@@ -260,7 +260,9 @@ paths:
                     format: URL
                     example: http://xxxxx.com
                   shop_images:
-                    description: 店舗画像のURL
+                    description: |-
+                      店舗画像のURL\
+                      <b>Google Maps APIより返却されるデータ</b>
                     type: array
                     items:
                       type: string
@@ -342,7 +344,7 @@ paths:
                           description: レビューID
                           type: string
                           format: 半角英数字
-                          example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+                          example: bm2i49nvou8nwfr4niv9
                         comment:
                           description: レビュー本文
                           type: string
@@ -421,7 +423,7 @@ paths:
                     description: レビューID
                     type: string
                     format: 半角英数字
-                    example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+                    example: bm2i49nvou8nwfr4niv9
         "400":
           description: パラメータ不正
         "500":
