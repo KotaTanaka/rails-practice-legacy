@@ -1,0 +1,9 @@
+<div class="main shops-index">
+  <div class="container">
+    <% @shops.each do |shop| %>
+      <div class="shops-index-item">
+        <%= link_to(shop.name, "/shops/#{shop.id}") %>
+      </div>
+    <% end %>
+  </div>
+</div>
