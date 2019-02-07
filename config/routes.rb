@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get "shops/:id" => "shops#show"
   # レビュー一覧取得
   get "reviews" => "reviews#index"
+  # レビュー投稿画面
+  get "reviews/new" => "reviews#new"
+  # レビュー投稿
+  post "reviews/create" => "reviews#create"
   # ホーム画面
   get "/" => "home#top"
   # 紹介ページ
