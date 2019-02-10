@@ -8,8 +8,13 @@ class ReviewsController < ApplicationController
   # レビュー投稿(API)
   def create
     @review = Review.new(content: params[:content])
-    @review.save
-    redirect_to("/reviews")
+
+    if @review.save
+      flash[:notice] = "レビューを投稿しました"
+      redirect_to("/reviews")
+    else
+      render("reviews/new")
+    end
   end
 
   # レビューステータス変更(API)
@@ -21,6 +26,7 @@ class ReviewsController < ApplicationController
   def destroy
     @review = Review.find_by(id: params[:id])
     @review.destroy
+    flash[:notice] = "レビューを削除しました"
     redirect_to("/reviews")
   end
 end
