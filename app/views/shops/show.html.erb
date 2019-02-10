@@ -4,8 +4,12 @@
       <p>
         <%= @shop.name %>
       </p>
-      <div class="post-time">
+      <div class="shop-time">
         <%= @shop.created_at %>
+      </div>
+      <div class="shop-menus">
+        <%= link_to("編集", "/shops/#{@shop.id}/edit") %>
+        <%= link_to("削除", "/shops/#{@shop.id}/destroy", {method: "post"}) %>
       </div>
     </div>
   </div>
