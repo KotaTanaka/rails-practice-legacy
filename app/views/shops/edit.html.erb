@@ -1,7 +1,7 @@
 <div class="main shops-new">
   <div class="container">
     <h1 class="form-heading">編集する</h1>
-    <%= form_tag("/shops/#{@shop.id}/update") do %>
+    <%= form_tag("/shops/#{@shop.id}", :method => :put) do %>
       <div class="form">
         <div class="form-body">
           <!-- バリデーションエラー -->

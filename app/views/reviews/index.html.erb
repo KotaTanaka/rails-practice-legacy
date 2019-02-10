@@ -3,7 +3,7 @@
     <% @reviews.each do |review| %>
       <div class="reviews-index-item">
         <%= review.content %>
-        <%= link_to("削除", "/reviews/#{review.id}/destroy", {method: "post"}) %>
+        <%= link_to("削除", "/reviews/#{review.id}", {method: "delete"}) %>
       </div>
     <% end %>
   </div>

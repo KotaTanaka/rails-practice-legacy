@@ -1,7 +1,7 @@
 <div class="main shopws-new">
   <div class="container">
     <h1 class="form-heading">新規登録</h1>
-    <%= form_tag("/shops/create") do %>
+    <%= form_tag("/shops", :method => :put) do %>
       <div class="form">
         <div class="form-body">
           <!-- バリデーションエラー -->
