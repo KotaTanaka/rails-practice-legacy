@@ -1,21 +1,23 @@
+####################
 # 店舗コントローラー
+####################
 class ShopsController < ApplicationController
-  # 店舗一覧取得(API/管理画面)
+  # 店舗一覧取得
   def index
     @shops = Shop.all.order(created_at: :desc)
   end
 
-  # 店舗詳細取得(API/管理画面)
+  # 店舗詳細取得
   def show
     @shop = Shop.find_by(id: params[:id])
   end
 
-  # 店舗登録(管理画面)
+  # 店舗登録フォーム
   def new
     @shop = Shop.new
   end
 
-  # 店舗登録(API)
+  # 店舗登録
   def create
     @shop = Shop.new(name: params[:name])
     if @shop.save
@@ -26,12 +28,12 @@ class ShopsController < ApplicationController
     end
   end
 
-  # 店舗編集(管理画面)
+  # 店舗編集フォーム
   def edit
     @shop = Shop.find_by(id: params[:id])
   end
 
-  # 店舗編集(API)
+  # 店舗編集
   def update
     @shop = Shop.find_by(id: params[:id])
     @shop.name = params[:name]
@@ -45,7 +47,7 @@ class ShopsController < ApplicationController
     end
   end
 
-  # 店舗削除(API)
+  # 店舗削除
   def destroy
     @shop = Shop.find_by(id: params[:id])
     @shop.destroy
