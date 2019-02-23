@@ -1,11 +1,13 @@
+####################
 # レビューコントローラー
+####################
 class ReviewsController < ApplicationController
-  # レビュー一覧取得(API/管理画面)
+  # レビュー一覧取得
   def index
     @reviews = Review.all.order(created_at: :desc)
   end
 
-  # レビュー投稿(API)
+  # レビュー投稿
   def create
     @review = Review.new(content: params[:content])
 
@@ -17,12 +19,12 @@ class ReviewsController < ApplicationController
     end
   end
 
-  # レビューステータス変更(API)
+  # レビューステータス変更
   def update
     redirect_to("/reviews")
   end
 
-  # レビュー削除(API)
+  # レビュー削除
   def destroy
     @review = Review.find_by(id: params[:id])
     @review.destroy
