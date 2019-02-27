@@ -27,7 +27,7 @@ $ gem install rails --no-document
 $ gem install mysql2 -v '0.5.2' --source 'https://rubygems.org/'
 $ bundle install
 $ mysql -u root -p
-mysql> grant all privileges on onedate_db.* to rails@localhost identified by 'password' with grant option;
+mysql> grant all privileges on wifi_map_db.* to rails@localhost identified by 'password' with grant option;
 mysql> \q
 $ rails db:create
 ```
