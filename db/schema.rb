@@ -10,18 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_02_071539) do
+ActiveRecord::Schema.define(version: 2019_03_06_163949) do
 
   create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "content"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "review_id"
+    t.string "shop_id"
+    t.boolean "publish_status"
+    t.integer "evaluation", limit: 1
+  end
+
+  create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "wifi_id"
+    t.string "wifi_name"
+    t.string "link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "shops", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "shop_id"
+    t.string "wifi_id"
+    t.string "ssid"
+    t.string "shop_name"
+    t.string "address"
+    t.string "shop_type"
+    t.string "opening_houres"
+    t.integer "seats_num"
+    t.boolean "power"
+    t.text "description"
   end
 
   create_table "spots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
