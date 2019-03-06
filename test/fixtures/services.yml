@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wifi_id: MyString
+  wifi_name: MyString
+  link: MyString
+
+two:
+  wifi_id: MyString
+  wifi_name: MyString
+  link: MyString
