@@ -71,10 +71,9 @@ class Admin::ShopsController < Admin::ApplicationController
   # PUT /admin/shops/:id
   def update
     @shop = Shop.find_by(id: params[:id])
-    # TODO 店舗情報更新処理
 
     respond_to do |format|
-      if @shop.save
+      if @shop.update(update_shop_params)
         format.json { render_success(:shop, :update, @shop.id) }
         format.html {
           flash[:notice] = "店舗データを更新しました"
@@ -107,5 +106,11 @@ class Admin::ShopsController < Admin::ApplicationController
     def create_shop_params
       params.require(:shop)
         .permit(:ssid, :shop_name, :address, :service_id, :shop_type, :opening_houres, :seats_num, :power, :descriotion)
+    end
+
+    # 店舗編集リクエストパラメータ
+    def update_shop_params
+      params.require(:shop)
+        .permit(:ssid, :shop_type, :opening_houres, :seats_num, :power, :descriotion)
     end
 end

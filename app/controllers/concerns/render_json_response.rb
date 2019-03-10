@@ -30,8 +30,8 @@ module RenderJsonResponse
 
     render status: 200, json: {
       code: 200,
-      id: id,
       message: "#{message_class}の#{message_action}に成功しました。",
+      id: id
     }
   end
   
