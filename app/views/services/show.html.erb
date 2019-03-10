@@ -1,0 +1,16 @@
+<div class="main services-show">
+  <div class="container">
+    <div class="services-show-item">
+      <p>
+        <%= @service.wifi_name %>
+      </p>
+      <div class="service-time">
+        <%= @service.created_at %>
+      </div>
+      <div class="service-menus">
+        <%= link_to("編集", "/admin/services/#{@service.id}/edit") %>
+        <%= link_to("削除", "/admin/services/#{@service.id}", {method: "delete"}) %>
+      </div>
+    </div>
+  </div>
+</div>

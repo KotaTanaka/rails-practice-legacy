@@ -2,14 +2,14 @@
   <div class="container">
     <div class="shops-show-item">
       <p>
-        <%= @shop.name %>
+        <%= @shop.shop_name %>
       </p>
       <div class="shop-time">
         <%= @shop.created_at %>
       </div>
       <div class="shop-menus">
-        <%= link_to("編集", "/shops/#{@shop.id}/edit") %>
-        <%= link_to("削除", "/shops/#{@shop.id}", {method: "delete"}) %>
+        <%= link_to("編集", "/admin/shops/#{@shop.id}/edit") %>
+        <%= link_to("削除", "/admin/shops/#{@shop.id}", {method: "delete"}) %>
       </div>
     </div>
   </div>

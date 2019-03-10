@@ -2,8 +2,8 @@
   <div class="container">
     <% @reviews.each do |review| %>
       <div class="reviews-index-item">
-        <%= review.content %>
-        <%= link_to("削除", "/reviews/#{review.id}", {method: "delete"}) %>
+        <%= review.comment %>
+        <%= link_to("削除", "/admin/reviews/#{review.id}", {method: "delete"}) %>
       </div>
     <% end %>
   </div>

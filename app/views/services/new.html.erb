@@ -1,17 +1,17 @@
-<div class="main shopws-new">
+<div class="main services-new">
   <div class="container">
     <h1 class="form-heading">新規登録</h1>
-    <%= form_tag("/admin/shops", :method => :put) do %>
+    <%= form_tag("/admin/services", :method => :put) do %>
       <div class="form">
         <div class="form-body">
           <!-- バリデーションエラー -->
-          <% @shop.errors.full_messages.each do |message| %>
+          <% @service.errors.full_messages.each do |message| %>
             <div class="form-error">
               <%= message %>
             </div>
           <% end %>
 
-          <textarea name="shop_name"><%= @shop.shop_name %></textarea>
+          <textarea name="wifi_name"><%= @service.wifi_name %></textarea>
           <input type="submit" value="登録">
         </div>
       </div>
