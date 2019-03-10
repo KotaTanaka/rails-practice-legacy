@@ -12,20 +12,23 @@
   <body>
     <header>
       <div class="header-logo">
-        <%= link_to("Find WiFi", "/") %>
+        <%= link_to("Find WiFi", "/admin") %>
       </div>
       <ul class="header-menus">
         <li>
-          <%= link_to("Wiki", "/about") %>
+          <%= link_to("Wi-Fi一覧", "/admin/services.html") %>
         </li>
         <li>
-          <%= link_to("店舗一覧", "/shops") %>
+          <%= link_to("Wi-Fi新規登録", "/admin/services/new.html") %>
         </li>
         <li>
-          <%= link_to("店舗新規登録", "/shops/new") %>
+          <%= link_to("店舗一覧", "/admin/shops.html") %>
         </li>
         <li>
-          <%= link_to("レビュー一覧", "/reviews") %>
+          <%= link_to("店舗新規登録", "/admin/shops/new.html") %>
+        </li>
+        <li>
+          <%= link_to("レビュー一覧", "/admin/reviews.html") %>
         </li>
       </ul>
     </header>

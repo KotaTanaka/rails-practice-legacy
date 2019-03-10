@@ -1,17 +1,17 @@
-<div class="main shops-new">
+<div class="main services-new">
   <div class="container">
     <h1 class="form-heading">編集する</h1>
-    <%= form_tag("/admin/shops/#{@shop.id}", :method => :put) do %>
+    <%= form_tag("/admin/services/#{@service.id}", :method => :put) do %>
       <div class="form">
         <div class="form-body">
           <!-- バリデーションエラー -->
-          <% @shop.errors.full_messages.each do |message| %>
+          <% @service.errors.full_messages.each do |message| %>
             <div class="form-error">
               <%= message %>
             </div>
           <% end %>
 
-          <textarea name="shop_name"><%= @shop.shop_name %></textarea>
+          <textarea name="wifi_name"><%= @service.wifi_name %></textarea>
           <input type="submit" value="保存">
         </div>
       </div>

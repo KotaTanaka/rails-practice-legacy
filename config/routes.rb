@@ -1,31 +1,76 @@
 Rails.application.routes.draw do
-  # Shop API フルルーティング
-  # - [S-1] GET /shops 店舗一覧取得
-  # - [S-2] GET /shops/:shop_id 店舗詳細取得
-  # - [S-3] POST /shops 店舗登録
-  # - [S-4] PUT /shops/:shop_id 店舗編集
-  # - [S-5] DELETE /shops/:shop_id 店舗削除
-  # - [管理画面] GET /shops/new 店舗登録フォーム
-  # - [管理画面] GET /shops/:shop_id/edit 店舗編集フォーム
-  resources :shops
+  ####################
+  # 公開API
+  ####################
+  scope module: :public, defaults: { format: "json" } do
+    # Shop
+    resources :shops, only: [
+      # [PS-1] GET /shops 店舗一覧取得
+      :index,
+      # [PS-2] GET /shops/:id 店舗詳細取得
+      :show
+    ]
 
-  # Review API
-  resources :reviews, only: [
-    # [R-1] GET /reviews レビュー一覧取得
-    :index,
-    # [R-2] POST /reviews レビュー投稿
-    :create,
-    # [R-3] PUT /reviews/:review_id レビューステータス変更
-    :update,
-    # [R-4] DELETE /reviews/:review_id レビュー削除
-    :destroy
-  ]
+    # Review
+    resources :reviews, only: [
+      # [PR-1] GET /reviews レビュー一覧取得
+      :index,
+      # [PR-2] POST /reviews レビュー投稿
+      :create
+    ]
+  end
 
-  # [管理画面] ホーム
-  get "/" => "home#top"
-  # [管理画面] 管理画面説明ページ
-  get "about" => "home#about"
+  ####################
+  # 管理API
+  ####################
+  namespace :admin, defaults: { format: "json" } do
+    # Service
+    resources :services, only: [
+      # [AW-1] GET /admin/services Wi-Fiサービス一覧取得
+      :index,
+      # [AW-2] GET /admin/services/:id Wi-Fiサービス詳細取得
+      :show,
+      # [AW-3] POST /admin/services Wi-Fiサービス登録
+      :create,
+      # [AW-4] PUT /admin/services/:id Wi-Fiサービス編集
+      :update,
+      # [AW-5] DELETE /admin/services/:id Wi-Fiサービス削除
+      :destroy,
+      # [管理画面] GET /admin/services/new Wi-Fiサービス登録フォーム
+      :new,
+      # [管理画面] GET /admin/services/:id/edit Wi-Fiサービス編集フォーム
+      :edit
+    ]
 
-  # サンプル(使わない)
-  resources :spots
+    # Shop
+    resources :shops, only: [
+      # [AS-1] GET /admin/shops 店舗一覧取得
+      :index,
+      # [AS-2] GET /admin/shops/:id 店舗詳細取得
+      :show,
+      # [AS-3] POST /admin/shops 店舗登録
+      :create,
+      # [AS-4] PUT /admin/shops/:id 店舗編集
+      :update,
+      # [AS-5] DELETE /admin/shops/:id 店舗削除
+      :destroy,
+      # [管理画面] GET /admin/shops/new 店舗登録フォーム
+      :new,
+      # [管理画面] GET /admin/shops/:id/edit 店舗編集フォーム
+      :edit
+    ]
+
+    # Review
+    resources :reviews, only: [
+      # [AR-1] GET /admin/reviews レビュー一覧取得
+      :index,
+      # [AR-2] PUT /admin/reviews/:id レビューステータス変更
+      :update,
+      # [AR-3] DELETE /admin/reviews/:id レビュー削除
+      :destroy
+    ]
+
+    # 管理画面ホーム
+    get "/" => "top#index", defaults: { format: "html" }
+  end
 end
