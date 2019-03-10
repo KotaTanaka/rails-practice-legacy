@@ -39,11 +39,11 @@ class Admin::ShopsController < Admin::ApplicationController
   # 店舗登録
   # POST /admin/shops
   def create
-    @shop = Shop.new(shop_name: params[:shop_name])
+    @shop = Shop.new(create_shop_params)
 
     respond_to do |format|
       if @shop.save
-        format.json
+        format.json { render_success(:shop, :create, @shop.id) }
         format.html {
           flash[:notice] = "店舗を登録しました"
           redirect_to("/admin/shops.html")
@@ -75,7 +75,7 @@ class Admin::ShopsController < Admin::ApplicationController
 
     respond_to do |format|
       if @shop.save
-        format.json
+        format.json { render_success(:shop, :update, @shop.id) }
         format.html {
           flash[:notice] = "店舗データを更新しました"
           redirect_to("/admin/shops.html")
@@ -94,11 +94,18 @@ class Admin::ShopsController < Admin::ApplicationController
     @shop.destroy
 
     respond_to do |format|
-      format.json
+      format.json { render_success(:shop, :delete, @shop.id) }
       format.html {
         flash[:notice] = "店舗データを更新しました"
         redirect_to("/admin/shops.html")
       }
     end
   end
+
+  private
+    # 店舗登録リクエストパラメータ
+    def create_shop_params
+      params.require(:shop)
+        .permit(:ssid, :shop_name, :address, :service_id, :shop_type, :opening_houres, :seats_num, :power, :descriotion)
+    end
 end
