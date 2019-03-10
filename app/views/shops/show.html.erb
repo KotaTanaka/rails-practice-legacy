@@ -8,8 +8,8 @@
         <%= @shop.created_at %>
       </div>
       <div class="shop-menus">
-        <%= link_to("編集", "/admin/shops/#{@shop.id}/edit") %>
-        <%= link_to("削除", "/admin/shops/#{@shop.id}", {method: "delete"}) %>
+        <%= link_to("編集", "/admin/shops/#{@shop.id}/edit.html") %>
+        <%= link_to("削除", "/admin/shops/#{@shop.id}.html", {method: "delete"}) %>
       </div>
     </div>
   </div>

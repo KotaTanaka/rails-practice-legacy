@@ -2,7 +2,7 @@
   <div class="container">
     <% @services.each do |service| %>
       <div class="services-index-item">
-        <%= link_to(service.wifi_name, "/admin/services/#{service.id}") %>
+        <%= link_to(service.wifi_name, "/admin/services/#{service.id}.html") %>
       </div>
     <% end %>
   </div>

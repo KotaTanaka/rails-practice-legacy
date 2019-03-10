@@ -6,7 +6,11 @@ class Admin::ReviewsController < Admin::ApplicationController
   # GET /admin/reviews
   def index
     @reviews = Review.all.order(created_at: :desc)
-    render("reviews/index")
+
+    respond_to do |format|
+      format.json { render json: @reviews }
+      format.html { render("reviews/index") }
+    end
   end
 
   # レビューステータス変更
@@ -15,7 +19,14 @@ class Admin::ReviewsController < Admin::ApplicationController
     @review = Review.find_by(id: params[:id])
     # TODO ステータス変更処理
     @review.save
-    redirect_to("/admin/reviews")
+
+    respond_to do |format|
+      format.json
+      format.html {
+        flash[:notice] = "レビューステータスを更新しました"
+        redirect_to("/admin/reviews.html")
+      }
+    end
   end
 
   # レビュー削除
@@ -23,7 +34,13 @@ class Admin::ReviewsController < Admin::ApplicationController
   def destroy
     @review = Review.find_by(id: params[:id])
     @review.destroy
-    flash[:notice] = "レビューを削除しました"
-    redirect_to("/admin/reviews")
+
+    respond_to do |format|
+      format.json
+      format.html {
+        flash[:notice] = "レビューを削除しました"
+        redirect_to("/admin/reviews.html")
+      }
+    end
   end
 end

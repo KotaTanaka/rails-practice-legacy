@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   ####################
   # 管理API
   ####################
-  namespace :admin do
+  namespace :admin, defaults: { format: "json" } do
     # Service
     resources :services, only: [
       # [AW-1] GET /admin/services Wi-Fiサービス一覧取得
@@ -71,6 +71,6 @@ Rails.application.routes.draw do
     ]
 
     # 管理画面ホーム
-    get "/" => "top#index"
+    get "/" => "top#index", defaults: { format: "html" }
   end
 end

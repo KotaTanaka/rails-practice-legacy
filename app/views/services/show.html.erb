@@ -8,8 +8,8 @@
         <%= @service.created_at %>
       </div>
       <div class="service-menus">
-        <%= link_to("編集", "/admin/services/#{@service.id}/edit") %>
-        <%= link_to("削除", "/admin/services/#{@service.id}", {method: "delete"}) %>
+        <%= link_to("編集", "/admin/services/#{@service.id}/edit.html") %>
+        <%= link_to("削除", "/admin/services/#{@service.id}.html", {method: "delete"}) %>
       </div>
     </div>
   </div>
