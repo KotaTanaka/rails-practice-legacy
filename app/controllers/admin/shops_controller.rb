@@ -2,13 +2,20 @@
 # 管理API 店舗コントローラー
 ####################
 class Admin::ShopsController < Admin::ApplicationController
+  include ValidateCondition
+
   # 店舗一覧取得
   # GET /admin/shops
   def index
-    @shops = Shop.all.order(created_at: :desc)
+    @shops = Shop.all
+      .limit(validate_limit(params[:limit]))
+      .offset(validate_offset(params[:offset]))
+      .order(created_at: validate_sort(params[:sort]))
+    # TODO 検索条件追加
 
     respond_to do |format|
-      format.json { render json: @shops }
+      # TODO shop_listの中身をカスタマイズ
+      format.json { render json: { total: Shop.count, shop_list: @shops } }
       format.html { render("shops/index") }
     end
   end
