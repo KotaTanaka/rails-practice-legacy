@@ -2,7 +2,7 @@
 # 基底コントローラー
 ####################
 class ApplicationController < ActionController::Base
-  include RenderJsonResponse
+  include RenderCommonResponse
 
   # その他の例外
   rescue_from Exception, :with => :internal_server_error

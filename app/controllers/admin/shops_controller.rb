@@ -3,6 +3,7 @@
 ####################
 class Admin::ShopsController < Admin::ApplicationController
   include ValidateCondition
+  include RenderShopsResponse
 
   # 店舗一覧取得
   # GET /admin/shops
@@ -11,11 +12,19 @@ class Admin::ShopsController < Admin::ApplicationController
       .limit(validate_limit(params[:limit]))
       .offset(validate_offset(params[:offset]))
       .order(created_at: validate_sort(params[:sort]))
-    # TODO 検索条件追加
+    
+    # 店舗が紐付くWi-Fiサービスの取得
+    ids = Array,new
+    @services = Array.new
+    @shops.each do |shop|
+      next if ids.include?(shop.service_id)
+      service = Service.find(shop.service_id)
+      @services.push(service)
+      ids.push(shop.service_id)
+    end
 
     respond_to do |format|
-      # TODO shop_listの中身をカスタマイズ
-      format.json { render json: { total: Shop.count, shop_list: @shops } }
+      format.json { render_shop_list(Shop.count, @shops, @services) }
       format.html { render("shops/index") }
     end
   end

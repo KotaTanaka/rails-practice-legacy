@@ -39,11 +39,11 @@ class Admin::ServicesController < Admin::ApplicationController
   # Wi-Fiサービス登録
   # POST /admin/services
   def create
-    @service = Service.new(wifi_name: params[:wifi_name])
+    @service = Service.new(service_params)
 
     respond_to do |format|
       if @service.save
-        format.json
+        format.json { render_success(:service, :create, @service.id) }
         format.html {
           flash[:notice] = "Wi-Fiサービスを登録しました"
           redirect_to("/admin/services.html")
@@ -101,4 +101,10 @@ class Admin::ServicesController < Admin::ApplicationController
       }
     end
   end
+
+  private
+    # Wi-Fiサービス登録/更新リクエストパラメータ
+    def service_params
+      params.require(:service).permit(:wifi_name, :link)
+    end
 end
