@@ -1,7 +1,7 @@
 ####################
 # エラーレスポンス生成モジュール
 ####################
-module RenderJsonResponse
+module RenderCommonResponse
   extend ActiveSupport::Concern
 
   # 200 Success
