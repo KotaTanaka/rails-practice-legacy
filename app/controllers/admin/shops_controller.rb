@@ -23,6 +23,10 @@ class Admin::ShopsController < Admin::ApplicationController
       ids.push(shop.service_id)
     end
 
+    # TODO 各店舗のレビュー数の取得
+    # TODO 各店舗の評価の平均値の算出
+    # review_map (Hash)にして render_shop_list の引数に加える
+
     respond_to do |format|
       format.json { render_shop_list(Shop.count, @shops, @services) }
       format.html { render("shops/index") }
@@ -33,9 +37,14 @@ class Admin::ShopsController < Admin::ApplicationController
   # GET /admin/shops/:id
   def show
     @shop = Shop.find_by(id: params[:id])
+    @service = Service.find_by(id: @shop.service_id)
+
+    # TODO 各店舗のレビュー数の取得
+    # TODO 各店舗の評価の平均値の算出
+    # review (Array)にして render_shop_list の引数に加える
 
     respond_to do |format|
-      format.json { render json: @shop }
+      format.json { render_shop_detail(@shop, @service) }
       format.html { render("shops/show") }
     end
   end
