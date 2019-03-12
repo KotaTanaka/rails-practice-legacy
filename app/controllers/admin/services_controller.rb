@@ -2,15 +2,28 @@
 # 管理API Wi-Fiサービスコントローラー
 ####################
 class Admin::ServicesController < Admin::ApplicationController
+  include ValidateCondition
+  include RenderServicesResponse
+
   # Wi-Fiサービス一覧取得
   # GET /admin/services
   # GET /admin/services.html
   def index
     @services = Service.all.order(created_at: :desc)
+      .limit(validate_limit(params[:limit]))
+      .offset(validate_offset(params[:offset]))
+      .order(created_at: validate_sort(params[:sort]))
+
+    # Wi-Fiサービスに紐付く店舗数の取得
+    @shop_count_map = Hash.new
+    @services.each do |service|
+      shop_count = Shop.where(service_id: service.id).count
+      @shop_count_map.store(service.id, shop_count)
+    end
 
     respond_to do |format|
+      format.json { render_service_list(Service.count, @services, @shop_count_map) }
       format.html { render("services/index") }
-      format.json { render json: @services }
     end
   end
 
