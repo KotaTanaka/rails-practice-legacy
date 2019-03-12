@@ -7,6 +7,7 @@ class Admin::ShopsController < Admin::ApplicationController
 
   # 店舗一覧取得
   # GET /admin/shops
+  # GET /admin/shops.html
   def index
     @shops = Shop.all
       .limit(validate_limit(params[:limit]))
@@ -35,6 +36,7 @@ class Admin::ShopsController < Admin::ApplicationController
 
   # 店舗詳細取得
   # GET /admin/shops/:id
+  # GET /admin/shops/:id.html
   def show
     @shop = Shop.find_by(id: params[:id])
     @service = Service.find_by(id: @shop.service_id)
@@ -50,7 +52,7 @@ class Admin::ShopsController < Admin::ApplicationController
   end
 
   # 店舗登録フォーム
-  # GET /admin/shops/new
+  # GET /admin/shops/new.html
   def new
     respond_to do |format|
       format.json
@@ -63,6 +65,7 @@ class Admin::ShopsController < Admin::ApplicationController
 
   # 店舗登録
   # POST /admin/shops
+  # POST /admin/shops.html
   def create
     @shop = Shop.new(create_shop_params)
 
@@ -81,7 +84,7 @@ class Admin::ShopsController < Admin::ApplicationController
   end
 
   # 店舗編集フォーム
-  # GET /admin/shops/:id/edit
+  # GET /admin/shops/:id/edit.html
   def edit
     respond_to do |format|
       format.json
@@ -94,6 +97,7 @@ class Admin::ShopsController < Admin::ApplicationController
 
   # 店舗編集
   # PUT /admin/shops/:id
+  # PUT /admin/shops/:id.html
   def update
     @shop = Shop.find_by(id: params[:id])
 
@@ -113,6 +117,7 @@ class Admin::ShopsController < Admin::ApplicationController
 
   # 店舗削除
   # DELETE /admin/shops/:id
+  # DELETE /admin/shops/:id.html
   def destroy
     @shop = Shop.find_by(id: params[:id])
     @shop.destroy
@@ -120,7 +125,7 @@ class Admin::ShopsController < Admin::ApplicationController
     respond_to do |format|
       format.json { render_success(:shop, :delete, @shop.id) }
       format.html {
-        flash[:notice] = "店舗データを更新しました"
+        flash[:notice] = "店舗データを削除しました"
         redirect_to("/admin/shops.html")
       }
     end
