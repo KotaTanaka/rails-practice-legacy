@@ -32,10 +32,11 @@ class Admin::ServicesController < Admin::ApplicationController
   # GET /admin/services/:id.html
   def show
     @service = Service.find_by(id: params[:id])
+    @shop_count = Shop.where(service_id: @service.id).count
 
     respond_to do |format|
+      format.json { render_service_detail(@service, @shop_count) }
       format.html { render("services/show") }
-      format.json { render json: @service }
     end
   end
 

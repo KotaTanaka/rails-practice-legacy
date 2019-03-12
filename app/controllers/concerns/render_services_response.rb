@@ -12,6 +12,7 @@ module RenderServicesResponse
     services.each do |w|
       service = {
         wifi_id: w.id,
+        wifi_name: w.wifi_name,
         link: w.link ||= "",
         shop_count: shop_count_map[w.id]
       }
@@ -20,5 +21,17 @@ module RenderServicesResponse
     end
 
     render json: { total: total, wifi_list: service_list }
+  end
+
+  # Wi-Fiサービス詳細取得レスポンス
+  def render_service_detail(service, shop_count)
+    render json: {
+      wifi_id: service.id,
+      wifi_name: service.wifi_name,
+      link: service.link ||= "",
+      register_date: service.created_at,
+      register_date: service.updated_at,
+      shop_count: shop_count
+    }
   end
 end
