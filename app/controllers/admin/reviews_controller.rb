@@ -25,15 +25,18 @@ class Admin::ReviewsController < Admin::ApplicationController
   # PUT /admin/reviews/:id.html
   def update
     @review = Review.find_by(id: params[:id])
-    # TODO ステータス変更処理
-    @review.save
 
     respond_to do |format|
-      format.json
-      format.html {
-        flash[:notice] = "レビューステータスを更新しました"
-        redirect_to("/admin/reviews.html")
-      }
+      if @review.update(publish_status: params[:review][:publish_status])
+        format.json { render_success(:review, :update, @review.id) }
+        format.html {
+          flash[:notice] = "レビューステータスを更新しました"
+          redirect_to("/admin/reviews.html")
+        }
+      else
+        format.json
+        format.html render("reviews/index")
+      end
     end
   end
 
@@ -45,7 +48,7 @@ class Admin::ReviewsController < Admin::ApplicationController
     @review.destroy
 
     respond_to do |format|
-      format.json
+      format.json { render_success(:review, :delete, @review.id) }
       format.html {
         flash[:notice] = "レビューを削除しました"
         redirect_to("/admin/reviews.html")
