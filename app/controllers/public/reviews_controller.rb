@@ -12,7 +12,15 @@ class Public::ReviewsController < Public::ApplicationController
   # レビュー投稿
   # POST /reviews
   def create
-    @review = Review.new(content: params[:content])
-    @review.save
+    review = Review.new(create_review_params)
+    review.publish_status = true
+    review.save
+    render_success(:review, :create, review.id)
   end
+
+  private
+    # レビュー投稿リクエストパラメータ
+    def create_review_params
+      params.require(:review).permit(:comment, :evaluation, :shop_id)
+    end
 end
