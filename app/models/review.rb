@@ -1,5 +1,6 @@
 ####################
 # Review モデル
+# @author tanakakota
 ####################
 class Review < ApplicationRecord
   belongs_to :shop

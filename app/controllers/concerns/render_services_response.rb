@@ -1,5 +1,6 @@
 ####################
 # Wi-Fiサービス参照系APIレスポンス生成モジュール
+# @author tanakakota
 ####################
 module RenderServicesResponse
   extend ActiveSupport::Concern

@@ -1,5 +1,6 @@
 ####################
 # Shop モデル
+# @author tanakakota
 ####################
 class Shop < ApplicationRecord
   belongs_to :service

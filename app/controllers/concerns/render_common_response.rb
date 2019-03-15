@@ -1,5 +1,6 @@
 ####################
 # エラーレスポンス生成モジュール
+# @author tanakakota
 ####################
 module RenderCommonResponse
   extend ActiveSupport::Concern

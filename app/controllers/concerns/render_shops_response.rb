@@ -1,5 +1,6 @@
 ####################
 # 店舗参照系APIレスポンス生成モジュール
+# @author tanakakota
 ####################
 module RenderShopsResponse
   extend ActiveSupport::Concern

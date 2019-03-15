@@ -1,5 +1,6 @@
 ####################
 # 基底コントローラー
+# @author tanakakota
 ####################
 class ApplicationController < ActionController::Base
   include RenderCommonResponse

@@ -1,5 +1,6 @@
 ####################
 # 管理API レビューコントローラー
+# @author tanakakota
 ####################
 class Admin::ReviewsController < Admin::ApplicationController
   include ValidateCondition

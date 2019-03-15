@@ -1,5 +1,6 @@
 ####################
 # 管理API Wi-Fiサービスコントローラー
+# @author tanakakota
 ####################
 class Admin::ServicesController < Admin::ApplicationController
   include ValidateCondition

@@ -1,5 +1,6 @@
 ####################
 # 公開API 店舗コントローラー
+# @author tanakakota
 ####################
 class Public::ShopsController < Public::ApplicationController
   include ValidateCondition
