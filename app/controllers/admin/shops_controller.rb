@@ -15,7 +15,7 @@ class Admin::ShopsController < Admin::ApplicationController
       .order(created_at: validate_sort(params[:sort]))
     
     # 店舗が紐付くWi-Fiサービスの取得
-    ids = Array,new
+    ids = Array.new
     @services = Array.new
     @shops.each do |shop|
       next if ids.include?(shop.service_id)

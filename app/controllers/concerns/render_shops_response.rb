@@ -10,7 +10,7 @@ module RenderShopsResponse
 
     # 店舗リストの生成
     shops.each do |s|
-      wifi_name = String.new
+      wifi_name = ""
 
       # Wi-Fiサービス名の取得
       services.each do |w|

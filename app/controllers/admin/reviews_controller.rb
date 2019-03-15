@@ -9,13 +9,23 @@ class Admin::ReviewsController < Admin::ApplicationController
   # GET /admin/reviews
   # GET /admin/reviews.html
   def index
-    @reviews = Review.all.order(created_at: :desc)
+    @reviews = Review
       .limit(validate_limit(params[:limit]))
       .offset(validate_offset(params[:offset]))
       .order(created_at: validate_sort(params[:sort]))
 
+    # レビューが紐付く店舗の取得
+    ids = Array.new
+    @shops = Array.new
+    @reviews.each do |review|
+      next if ids.include?(review.shop_id)
+      shop = Shop.find(review.shop_id)
+      @shops.push(shop)
+      ids.push(review.shop_id)
+    end
+
     respond_to do |format|
-      format.json { render_review_list(Review.count, @reviews) }
+      format.json { render_review_list(Review.count, @reviews, @shops) }
       format.html { render("reviews/index") }
     end
   end
