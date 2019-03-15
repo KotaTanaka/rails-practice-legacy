@@ -9,7 +9,7 @@ class Admin::ServicesController < Admin::ApplicationController
   # GET /admin/services
   # GET /admin/services.html
   def index
-    @services = Service.all.order(created_at: :desc)
+    @services = Service.all
       .limit(validate_limit(params[:limit]))
       .offset(validate_offset(params[:offset]))
       .order(created_at: validate_sort(params[:sort]))
