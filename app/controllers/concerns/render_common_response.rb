@@ -1,5 +1,6 @@
 ####################
 # エラーレスポンス生成モジュール
+# @author tanakakota
 ####################
 module RenderCommonResponse
   extend ActiveSupport::Concern
@@ -36,8 +37,21 @@ module RenderCommonResponse
   end
   
   # 400 Bad Request
-  def render_bad_request
-    render status: 400, json: { code: 400, message: "パラメータが不正です。" }
+  def render_validation_error(error_message_list)
+    render status: 400, json: {
+      code: 400,
+      message: "パラメータが不正です。",
+      detail_message: error_message_list
+    }
+  end
+
+  # 400 Bad Request
+  def render_no_target(target)
+    render status: 400, json: {
+      code: 400,
+      message: "パラメータが不正です。",
+      detail_message: target + "が見つかりません。"
+    }
   end
   
   # 403 Forbidden

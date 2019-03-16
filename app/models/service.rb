@@ -1,5 +1,6 @@
 ####################
 # Service モデル
+# @author tanakakota
 ####################
 class Service < ApplicationRecord
   has_many :shops

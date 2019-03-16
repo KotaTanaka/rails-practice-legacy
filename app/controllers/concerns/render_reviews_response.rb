@@ -1,5 +1,6 @@
 ####################
 # レビュー参照系APIレスポンス生成モジュール
+# @author tanakakota
 ####################
 module RenderReviewsResponse
   extend ActiveSupport::Concern

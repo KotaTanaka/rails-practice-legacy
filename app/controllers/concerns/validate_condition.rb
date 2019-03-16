@@ -1,5 +1,6 @@
 ####################
 # クエリパラメータ(検索条件)バリデーションモジュール
+# @author tanakakota
 ####################
 module ValidateCondition
   extend ActiveSupport::Concern

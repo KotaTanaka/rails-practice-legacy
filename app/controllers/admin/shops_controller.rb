@@ -1,5 +1,6 @@
 ####################
 # 管理API 店舗コントローラー
+# @author tanakakota
 ####################
 class Admin::ShopsController < Admin::ApplicationController
   include ValidateCondition

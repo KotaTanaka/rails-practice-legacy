@@ -1,5 +1,6 @@
 ####################
 # 公開API レビューコントローラー
+# @author tanakakota
 ####################
 class Public::ReviewsController < Public::ApplicationController
   include ValidateCondition
@@ -24,9 +25,14 @@ class Public::ReviewsController < Public::ApplicationController
   # POST /reviews
   def create
     review = Review.new(create_review_params)
+    raise NoTargetException, "店舗" if Shop.find_by(id: review.shop_id).nil?
     review.publish_status = true
-    review.save
-    render_success(:review, :create, review.id)
+
+    if review.save
+      render_success(:review, :create, review.id)
+    else
+      render_validation_error(review.errors.messages)
+    end
   end
 
   private
