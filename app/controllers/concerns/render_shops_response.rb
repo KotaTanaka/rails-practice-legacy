@@ -28,9 +28,9 @@ module RenderShopsResponse
         ssid: s.ssid,
         address: s.address,
         shop_type: s.shop_type ||= "",
-        opening_hours: s.opening_houres ||= "",
+        opening_hours: s.opening_hours ||= "",
         power: s.power ||= "",
-        description: s.descriotion ||= "",
+        description: s.description ||= "",
         review_count: 0,
         average: "-"
       }
@@ -52,9 +52,9 @@ module RenderShopsResponse
       ssid: shop.ssid,
       address: shop.address,
       shop_type: shop.shop_type ||= "",
-      opening_hours: shop.opening_houres ||= "",
+      opening_hours: shop.opening_hours ||= "",
       power: shop.power ||= "",
-      description: shop.descriotion ||= "",
+      description: shop.description ||= "",
       register_date: shop.created_at,
       update_date: shop.updated_at,
       review_count: 0,

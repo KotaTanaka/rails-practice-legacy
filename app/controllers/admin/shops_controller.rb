@@ -136,12 +136,12 @@ class Admin::ShopsController < Admin::ApplicationController
     # 店舗登録リクエストパラメータ
     def create_shop_params
       params.require(:shop)
-        .permit(:ssid, :shop_name, :address, :service_id, :shop_type, :opening_houres, :seats_num, :power, :descriotion)
+        .permit(:ssid, :shop_name, :address, :service_id, :shop_type, :opening_hours, :seats_num, :power, :description)
     end
 
     # 店舗編集リクエストパラメータ
     def update_shop_params
       params.require(:shop)
-        .permit(:ssid, :shop_type, :opening_houres, :seats_num, :power, :descriotion)
+        .permit(:ssid, :shop_type, :opening_hours, :seats_num, :power, :description)
     end
 end
