@@ -72,11 +72,11 @@ Rails.application.routes.draw do
 
     # 管理画面ホーム
     get "/" => "top#index", defaults: { format: "html" }
-
-    # 存在しないパスを指定された場合のハンドリング
-    get "*path", controller: 'application', action: 'not_found_error'
-    post "*path", controller: 'application', action: 'not_found_error'
-    put "*path", controller: 'application', action: 'not_found_error'
-    delete "*path", controller: 'application', action: 'not_found_error'
   end
+
+  # 存在しないパスを指定された場合のハンドリング
+  get "*path", controller: 'application', action: 'not_found_error'
+  post "*path", controller: 'application', action: 'not_found_error'
+  put "*path", controller: 'application', action: 'not_found_error'
+  delete "*path", controller: 'application', action: 'not_found_error'
 end

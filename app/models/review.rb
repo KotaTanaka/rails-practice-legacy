@@ -11,7 +11,7 @@ class Review < ApplicationRecord
   # バリデーション
   validates :comment, presence: true, length: { minimum: 1, maximum: 500 }
   validates :shop_id, presence: true
-  validates :evaluation, presence: true
+  validates :evaluation, presence: true, numericality: true, evaluation: true
 
   def set_hex_id
     self.id = SecureRandom.hex
