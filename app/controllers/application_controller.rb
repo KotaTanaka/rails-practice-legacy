@@ -3,12 +3,16 @@
 # @author tanakakota
 ####################
 class ApplicationController < ActionController::Base
+  # TODO ExceptionHandlerをConcernに切り分ける
+  
   include RenderCommonResponse
 
   class NoTargetException < ActionController::ActionControllerError; end
 
   rescue_from Exception, :with => :internal_server_error
   rescue_from ApplicationController::NoTargetException, :with => :no_target_error
+
+  # TODO ParseErrorのハンドリング
 
   # 対象が存在しない
   def no_target_error(e=nil)
