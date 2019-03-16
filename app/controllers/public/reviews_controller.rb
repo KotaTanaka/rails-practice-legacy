@@ -31,7 +31,7 @@ class Public::ReviewsController < Public::ApplicationController
     if review.save
       render_success(:review, :create, review.id)
     else
-      render_validation_error(review.errors.messages)
+      render_validation_error(review.errors.full_messages)
     end
   end
 
