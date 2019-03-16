@@ -60,22 +60,23 @@ $ rails s
 #### Wi-Fi利用可能店舗テーブル
 
 ```
-+----------------+--------------+------+-----+
-| Field          | Type         | Null | Key |
-+----------------+--------------+------+-----+
-| id             | varchar(36)  | NO   | PRI |
-| ssid           | varchar(255) | NO   |     |
-| shop_name      | varchar(255) | NO   |     |
-| address        | varchar(255) | NO   |     |
-| shop_type      | varchar(255) | YES  |     |
-| opening_houres | varchar(255) | YES  |     |
-| seats_num      | int(11)      | YES  |     |
-| power          | tinyint(1)   | YES  |     |
-| descriotion    | text         | YES  |     |
-| created_at     | datetime     | NO   |     |
-| updated_at     | datetime     | NO   |     |
-| service_id     | varchar(32)  | NO   | MUL |
-+----------------+--------------+------+-----+
++---------------+--------------+------+-----+
+| Field         | Type         | Null | Key |
++---------------+--------------+------+-----+
+| id            | varchar(36)  | NO   | PRI |
+| ssid          | varchar(255) | NO   |     |
+| shop_name     | varchar(255) | NO   |     |
+| address       | varchar(255) | NO   |     |
+| access        | varchar(255) | YES  |     |
+| shop_type     | varchar(255) | YES  |     |
+| opening_hours | varchar(255) | YES  |     |
+| seats_num     | int(11)      | YES  |     |
+| power         | tinyint(1)   | YES  |     |
+| description   | text         | YES  |     |
+| created_at    | datetime     | NO   |     |
+| updated_at    | datetime     | NO   |     |
+| service_id    | varchar(32)  | NO   | MUL |
++---------------+--------------+------+-----+
 ```
 
 #### レビューテーブル

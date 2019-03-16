@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_09_063344) do
+ActiveRecord::Schema.define(version: 2019_03_16_111519) do
 
   create_table "reviews", id: :string, limit: 32, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "comment", null: false
@@ -33,20 +33,16 @@ ActiveRecord::Schema.define(version: 2019_03_09_063344) do
     t.string "ssid", null: false
     t.string "shop_name", null: false
     t.string "address", null: false
+    t.string "access"
     t.string "shop_type"
-    t.string "opening_houres"
+    t.string "opening_hours"
     t.integer "seats_num"
     t.boolean "power"
-    t.text "descriotion"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "service_id", limit: 32, null: false
     t.index ["service_id"], name: "index_shops_on_service_id"
-  end
-
-  create_table "spots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "reviews", "shops"
