@@ -10,9 +10,14 @@ class ApplicationController < ActionController::Base
   class NoTargetException < ActionController::ActionControllerError; end
 
   rescue_from Exception, :with => :internal_server_error
+  rescue_from ActionController::ParameterMissing, :with => :bad_request_error
   rescue_from ApplicationController::NoTargetException, :with => :no_target_error
-
   # TODO ParseErrorのハンドリング
+
+  # リクエストの形式が不正
+  def bad_request_error
+    render_validation_error(Array.new.push("リクエストの形式が間違っています"))
+  end
 
   # 対象が存在しない
   def no_target_error(e=nil)
