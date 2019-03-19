@@ -10,7 +10,14 @@ class Admin::ShopsController < Admin::ApplicationController
   # GET /admin/shops
   # GET /admin/shops.html
   def index
-    @shops = Shop.all
+    if params[:wifi_id].nil? then
+      shops = Shop.all
+    else
+      shops = Shop.where(service_id: params[:wifi_id])
+    end
+    
+    @shops_count = shops.count
+    @shops_result = shops
       .limit(validate_limit(params[:limit]))
       .offset(validate_offset(params[:offset]))
       .order(created_at: validate_sort(params[:sort]))
@@ -18,10 +25,11 @@ class Admin::ShopsController < Admin::ApplicationController
     # 店舗が紐付くWi-Fiサービスの取得
     ids = Array.new
     @services = Array.new
-    @shops.each do |shop|
+    @shops_result.each do |shop|
       next if ids.include?(shop.service_id)
       service = Service.find(shop.service_id)
       @services.push(service)
+      break if params[:wifi_id].present?
       ids.push(shop.service_id)
     end
 
@@ -30,7 +38,7 @@ class Admin::ShopsController < Admin::ApplicationController
     # review_map (Hash)にして render_shop_list の引数に加える
 
     respond_to do |format|
-      format.json { render_shop_list(Shop.count, @shops, @services) }
+      format.json { render_shop_list(@shops_count, @shops_result, @services) }
       format.html { render("shops/index") }
     end
   end
