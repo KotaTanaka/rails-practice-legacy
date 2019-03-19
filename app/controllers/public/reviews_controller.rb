@@ -9,6 +9,13 @@ class Public::ReviewsController < Public::ApplicationController
   # レビュー一覧取得
   # GET /review
   def index
+    if params[:shop_id].present? then
+      Shop.find_by!(id: params[:shop_id])
+    else
+      render_validation_error(Array["shop_idは必須です"])
+      return
+    end
+
     reviews_result = Review
       .where(shop_id: params[:shop_id])
       .where(publish_status: true)
