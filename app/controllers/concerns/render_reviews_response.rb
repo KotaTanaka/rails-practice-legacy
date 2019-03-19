@@ -21,9 +21,9 @@ module RenderReviewsResponse
       end
 
       review = {
+        review_id: r.id,
         shop_id: r.shop_id,
         shop_name: shop_name,
-        review_id: r.id,
         comment: r.comment,
         publish_status: r.publish_status,
         evaluation: r.evaluation,
