@@ -32,7 +32,7 @@ class Admin::ServicesController < Admin::ApplicationController
   # GET /admin/services/:id
   # GET /admin/services/:id.html
   def show
-    @service = Service.find_by(id: params[:id])
+    @service = Service.find_by!(id: params[:id])
     @shop_count = Shop.where(service_id: @service.id).count
 
     respond_to do |format|
@@ -67,8 +67,8 @@ class Admin::ServicesController < Admin::ApplicationController
           redirect_to("/admin/services.html")
         }
       else
-        format.json
-        format.html render("services/new")
+        format.json { render_validation_error(@service.errors.full_messages) }
+        format.html { render("services/new") }
       end
     end
   end
@@ -79,7 +79,7 @@ class Admin::ServicesController < Admin::ApplicationController
     respond_to do |format|
       format.json
       format.html {
-        @service = Service.find_by(id: params[:id])
+        @service = Service.find_by!(id: params[:id])
         render("services/edit")
       }
     end
@@ -89,7 +89,7 @@ class Admin::ServicesController < Admin::ApplicationController
   # PUT /admin/services/:id
   # PUT /admin/services/:id.html
   def update
-    @service = Service.find_by(id: params[:id])
+    @service = Service.find_by!(id: params[:id])
 
     respond_to do |format|
       if @service.update(service_params)
@@ -99,8 +99,8 @@ class Admin::ServicesController < Admin::ApplicationController
           redirect_to("/admin/services.html")
         }
       else
-        format.json
-        format.html render("serivces/edit")
+        format.json { render_validation_error(@service.errors.full_messages) }
+        format.html { render("serivces/edit") }
       end
     end
   end
@@ -109,7 +109,7 @@ class Admin::ServicesController < Admin::ApplicationController
   # DELETE /admin/services/:id
   # DELETE /admin/services/:id.html
   def destroy
-    @service = Service.find_by(id: params[:id])
+    @service = Service.find_by!(id: params[:id])
     @service.destroy
 
     respond_to do |format|

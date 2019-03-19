@@ -8,25 +8,17 @@ module RenderCommonResponse
   # 200 Success
   def render_success(class_name, action_name, id)
     case class_name
-      when :service then
-        message_class = "Wi-Fiサービス"
-      when :shop then
-        message_class = "店舗"
-      when :review then
-        message_class = "レビュー"
-      else
-        message_class = ""
+      when :service then message_class = "Wi-Fiサービス"
+      when :shop then message_class = "店舗"
+      when :review then message_class = "レビュー"
+      else message_class = ""
     end
 
     case action_name
-      when :create then
-        message_action = "登録"
-      when :update then
-        message_action = "更新"
-      when :delete then
-        message_action = "削除"
-      else
-        message_action = ""
+      when :create then message_action = "登録"
+      when :update then message_action = "更新"
+      when :delete then message_action = "削除"
+      else message_action = ""
     end
 
     render status: 200, json: {
@@ -46,7 +38,14 @@ module RenderCommonResponse
   end
 
   # 400 Bad Request
-  def render_no_target(target)
+  def render_no_target(error_message)
+    case error_message
+      when "Couldn't find Service" then target  = "Wi-Fiサービス"
+      when "Couldn't find Shop" then target  = "店舗"
+      when "Couldn't find Review" then target  = "レビュー"
+      else target  = "対象"
+    end
+    
     render status: 400, json: {
       code: 400,
       message: "パラメータが不正です",

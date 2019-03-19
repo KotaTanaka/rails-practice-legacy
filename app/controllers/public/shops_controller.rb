@@ -34,8 +34,8 @@ class Public::ShopsController < Public::ApplicationController
   # 店舗詳細取得
   # GET /shops:id
   def show
-    shop = Shop.find_by(id: params[:id])
-    service = Service.find_by(id: shop.service_id)
+    shop = Shop.find_by!(id: params[:id])
+    service = Service.find_by!(id: shop.service_id)
 
     # TODO 各店舗のレビュー数の取得
     # TODO 各店舗の評価の平均値の算出

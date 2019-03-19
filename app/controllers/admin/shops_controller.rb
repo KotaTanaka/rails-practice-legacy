@@ -10,7 +10,14 @@ class Admin::ShopsController < Admin::ApplicationController
   # GET /admin/shops
   # GET /admin/shops.html
   def index
-    @shops = Shop.all
+    if params[:wifi_id].nil? then
+      shops = Shop.all
+    else
+      shops = Shop.where(service_id: params[:wifi_id])
+    end
+    
+    @shops_count = shops.count
+    @shops_result = shops
       .limit(validate_limit(params[:limit]))
       .offset(validate_offset(params[:offset]))
       .order(created_at: validate_sort(params[:sort]))
@@ -18,10 +25,11 @@ class Admin::ShopsController < Admin::ApplicationController
     # 店舗が紐付くWi-Fiサービスの取得
     ids = Array.new
     @services = Array.new
-    @shops.each do |shop|
+    @shops_result.each do |shop|
       next if ids.include?(shop.service_id)
       service = Service.find(shop.service_id)
       @services.push(service)
+      break if params[:wifi_id].present?
       ids.push(shop.service_id)
     end
 
@@ -30,7 +38,7 @@ class Admin::ShopsController < Admin::ApplicationController
     # review_map (Hash)にして render_shop_list の引数に加える
 
     respond_to do |format|
-      format.json { render_shop_list(Shop.count, @shops, @services) }
+      format.json { render_shop_list(@shops_count, @shops_result, @services) }
       format.html { render("shops/index") }
     end
   end
@@ -39,8 +47,8 @@ class Admin::ShopsController < Admin::ApplicationController
   # GET /admin/shops/:id
   # GET /admin/shops/:id.html
   def show
-    @shop = Shop.find_by(id: params[:id])
-    @service = Service.find_by(id: @shop.service_id)
+    @shop = Shop.find_by!(id: params[:id])
+    @service = Service.find_by!(id: @shop.service_id)
 
     # TODO 各店舗のレビュー数の取得
     # TODO 各店舗の評価の平均値の算出
@@ -68,7 +76,8 @@ class Admin::ShopsController < Admin::ApplicationController
   # POST /admin/shops
   # POST /admin/shops.html
   def create
-    @shop = Shop.new(create_shop_params)
+    @shop = Shop.new(shop_params)
+    Service.find_by!(id: @shop.service_id)
 
     respond_to do |format|
       if @shop.save
@@ -78,8 +87,8 @@ class Admin::ShopsController < Admin::ApplicationController
           redirect_to("/admin/shops.html")
         }
       else
-        format.json
-        format.html render("shops/new")
+        format.json { render_validation_error(@shop.errors.full_messages) }
+        format.html { render("shops/new") }
       end
     end
   end
@@ -90,7 +99,7 @@ class Admin::ShopsController < Admin::ApplicationController
     respond_to do |format|
       format.json
       format.html {
-        @shop = Shop.find_by(id: params[:id])
+        @shop = Shop.find_by!(id: params[:id])
         render("shops/edit")
       }
     end
@@ -100,18 +109,19 @@ class Admin::ShopsController < Admin::ApplicationController
   # PUT /admin/shops/:id
   # PUT /admin/shops/:id.html
   def update
-    @shop = Shop.find_by(id: params[:id])
+    @shop = Shop.find_by!(id: params[:id])
+    Service.find_by!(id: @shop.service_id)
 
     respond_to do |format|
-      if @shop.update(update_shop_params)
+      if @shop.update(shop_params)
         format.json { render_success(:shop, :update, @shop.id) }
         format.html {
           flash[:notice] = "店舗データを更新しました"
           redirect_to("/admin/shops.html")
         }
       else
-        format.json
-        format.html render("shops/edit")
+        format.json { render_validation_error(@shop.errors.full_messages) }
+        format.html { render("shops/edit") }
       end
     end
   end
@@ -120,7 +130,7 @@ class Admin::ShopsController < Admin::ApplicationController
   # DELETE /admin/shops/:id
   # DELETE /admin/shops/:id.html
   def destroy
-    @shop = Shop.find_by(id: params[:id])
+    @shop = Shop.find_by!(id: params[:id])
     @shop.destroy
 
     respond_to do |format|
@@ -133,15 +143,9 @@ class Admin::ShopsController < Admin::ApplicationController
   end
 
   private
-    # 店舗登録リクエストパラメータ
-    def create_shop_params
+    # 店舗登録/編集リクエストパラメータ
+    def shop_params
       params.require(:shop)
-        .permit(:ssid, :shop_name, :address, :service_id, :shop_type, :opening_hours, :seats_num, :power, :description)
-    end
-
-    # 店舗編集リクエストパラメータ
-    def update_shop_params
-      params.require(:shop)
-        .permit(:ssid, :shop_type, :opening_hours, :seats_num, :power, :description)
+        .permit(:ssid, :shop_name, :address, :service_id, :access, :shop_type, :opening_hours, :seats_num, :power, :description)
     end
 end

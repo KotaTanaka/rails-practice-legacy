@@ -35,7 +35,7 @@ class Admin::ReviewsController < Admin::ApplicationController
   # PUT /admin/reviews/:id
   # PUT /admin/reviews/:id.html
   def update
-    @review = Review.find_by(id: params[:id])
+    @review = Review.find_by!(id: params[:id])
 
     respond_to do |format|
       if @review.update(publish_status: params[:review][:publish_status])
@@ -55,7 +55,7 @@ class Admin::ReviewsController < Admin::ApplicationController
   # DELETE /admin/reviews/:id
   # DELETE /admin/reviews/:id.html
   def destroy
-    @review = Review.find_by(id: params[:id])
+    @review = Review.find_by!(id: params[:id])
     @review.destroy
 
     respond_to do |format|
