@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Exception, :with => :internal_server_error
   rescue_from ActionController::ParameterMissing, :with => :bad_request_error
-  rescue_from ApplicationController::NoTargetException, :with => :no_target_error
+  rescue_from ActiveRecord::RecordNotFound, :with => :no_target_error
   # TODO ParseErrorのハンドリング
 
   # リクエストの形式が不正
