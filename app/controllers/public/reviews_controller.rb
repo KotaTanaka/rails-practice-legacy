@@ -24,8 +24,8 @@ class Public::ReviewsController < Public::ApplicationController
   # レビュー投稿
   # POST /reviews
   def create
-    review = Review.new(create_review_params)
-    raise NoTargetException, "店舗" if Shop.find_by(id: review.shop_id).nil?
+    review = Review.new(review_params)
+    Shop.find_by!(id: review.shop_id)
     review.publish_status = true
 
     if review.save
@@ -37,7 +37,7 @@ class Public::ReviewsController < Public::ApplicationController
 
   private
     # レビュー投稿リクエストパラメータ
-    def create_review_params
+    def review_params
       params.require(:review).permit(:comment, :evaluation, :shop_id)
     end
 end
