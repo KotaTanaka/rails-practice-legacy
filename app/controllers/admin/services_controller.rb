@@ -67,8 +67,8 @@ class Admin::ServicesController < Admin::ApplicationController
           redirect_to("/admin/services.html")
         }
       else
-        format.json
-        format.html render("services/new")
+        format.json { render_validation_error(@service.errors.full_messages) }
+        format.html { render("services/new") }
       end
     end
   end
@@ -99,8 +99,8 @@ class Admin::ServicesController < Admin::ApplicationController
           redirect_to("/admin/services.html")
         }
       else
-        format.json
-        format.html render("serivces/edit")
+        format.json { render_validation_error(@service.errors.full_messages) }
+        format.html { render("serivces/edit") }
       end
     end
   end
