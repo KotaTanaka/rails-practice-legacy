@@ -78,8 +78,8 @@ class Admin::ShopsController < Admin::ApplicationController
           redirect_to("/admin/shops.html")
         }
       else
-        format.json
-        format.html render("shops/new")
+        format.json { render_validation_error(@shop.errors.full_messages) }
+        format.html { render("shops/new") }
       end
     end
   end
@@ -110,8 +110,8 @@ class Admin::ShopsController < Admin::ApplicationController
           redirect_to("/admin/shops.html")
         }
       else
-        format.json
-        format.html render("shops/edit")
+        format.json { render_validation_error(@shop.errors.full_messages) }
+        format.html { render("shops/edit") }
       end
     end
   end
