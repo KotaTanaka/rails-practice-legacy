@@ -6,7 +6,7 @@ module RenderShopsResponse
   extend ActiveSupport::Concern
 
   # 店舗一覧取得レスポンス
-  def render_shop_list(total, shops, services)
+  def render_shop_list(total, shops, services, aggregate_review_map)
     shop_list = Array.new
 
     # 店舗リストの生成
@@ -33,8 +33,8 @@ module RenderShopsResponse
         seats_num: s.seats_num ||= "",
         power: s.power ||= "",
         description: s.description ||= "",
-        review_count: 0,
-        average: "-"
+        review_count: aggregate_review_map[s.id][:review_count],
+        average: aggregate_review_map[s.id][:evaluation_average] ||= 0
       }
 
       shop_list.push(shop)
@@ -44,7 +44,7 @@ module RenderShopsResponse
   end
 
   # 店舗詳細取得レスポンス
-  def render_shop_detail(shop, service)
+  def render_shop_detail(shop, service, aggregate_review)
     render json: {
       shop_id: shop.id,
       wifi_id: service.id,
@@ -61,8 +61,8 @@ module RenderShopsResponse
       description: shop.description ||= "",
       register_date: shop.created_at,
       update_date: shop.updated_at,
-      review_count: 0,
-      average: "-"
+      review_count: aggregate_review[:review_count],
+      average: aggregate_review[:evaluation_average]
     }
   end
 end

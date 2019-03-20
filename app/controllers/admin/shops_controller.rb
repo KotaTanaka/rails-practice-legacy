@@ -4,6 +4,7 @@
 ####################
 class Admin::ShopsController < Admin::ApplicationController
   include ValidateCondition
+  include AggregateData
   include RenderShopsResponse
 
   # 店舗一覧取得
@@ -33,12 +34,14 @@ class Admin::ShopsController < Admin::ApplicationController
       ids.push(shop.service_id)
     end
 
-    # TODO 各店舗のレビュー数の取得
-    # TODO 各店舗の評価の平均値の算出
-    # review_map (Hash)にして render_shop_list の引数に加える
+    # 店舗に紐付くレビューの集計
+    @aggregate_review_map = Hash.new
+    @shops_result.each do |shop|
+      @aggregate_review_map.store(shop.id, aggregate_review(shop.id))
+    end
 
     respond_to do |format|
-      format.json { render_shop_list(@shops_count, @shops_result, @services) }
+      format.json { render_shop_list(@shops_count, @shops_result, @services, @aggregate_review_map) }
       format.html { render("shops/index") }
     end
   end
@@ -49,13 +52,10 @@ class Admin::ShopsController < Admin::ApplicationController
   def show
     @shop = Shop.find_by!(id: params[:id])
     @service = Service.find_by!(id: @shop.service_id)
-
-    # TODO 各店舗のレビュー数の取得
-    # TODO 各店舗の評価の平均値の算出
-    # review (Array)にして render_shop_list の引数に加える
+    @aggregate_review = aggregate_review(@shop.id)
 
     respond_to do |format|
-      format.json { render_shop_detail(@shop, @service) }
+      format.json { render_shop_detail(@shop, @service, @aggregate_review) }
       format.html { render("shops/show") }
     end
   end
